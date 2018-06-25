@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+tmp
+.idea
+data
+yarn.lock
+test/fixtures/.dpack
+test/fixtures/dpack.json
+test/**.db
+test/.dpackrc-test
+package-lock.json
+dist
+builds

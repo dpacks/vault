@@ -1,0 +1,30 @@
+{
+  "name": "@dpack/vault",
+  "version": "0.1.1",
+  "description": "dPack Vault API That's Also Compatible With dPack's Native API and dBrowser's Native API.",
+  "contributors": [
+    "Jared Rice Sr. <jared@dwebs.io>",
+    "Distributed Webs Project, LLC. <labs@distributedwebs.org>"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava -s test/*.js"
+  },
+  "dependencies": {
+    "@dbrowser/errors": "dbrowser/errors#master",
+    "@ddns/core": "distdns/core#master",
+    "@dpack/api": "dpacks/api#master",
+    "@dpack/core": "dpacks/core#master",
+    "@dwcore/dws2-chain": "dwcore/dws2-chain#master",
+    "@dwcore/parse": "dwcore/parse#master",
+    "dom-event-target": "*"
+  },
+  "devDependencies": {
+    "ava": "^0.21.0",
+    "tempy": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
