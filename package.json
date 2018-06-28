@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@dbrowser/errors": "dbrowser/errors#master",
-    "@dwebdns/core": "distdns/core#master",
     "@dpack/api": "dpacks/api#master",
     "@dpack/core": "dpacks/core#master",
     "@dwcore/dws-chain": "dwcore/dws-chain#master",
     "@dwcore/parse": "dwcore/parse#master",
+    "@dwebs/dns": "distributedweb/dns#master",
     "dom-event-target": "*"
   },
   "devDependencies": {
