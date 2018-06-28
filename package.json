@@ -1,6 +1,6 @@
 {
   "name": "@dpack/vault",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "dPack Vault API That's Also Compatible With dPack's Native API and dBrowser's Native API.",
   "contributors": [
     "Jared Rice Sr. <jared@dwebs.io>",
