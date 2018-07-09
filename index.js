@@ -3,8 +3,8 @@ const fs = require('fs')
 const pda = require('@dpack/api')
 const DPack = require('@dpack/core')
 const dws2Chain = require('@dwcore/dws-chain')
-const parseDWebURL = require('@dwcore/parse')
-const dwRem = require('@dwcore/rem')
+const parseDWebURL = require('@dwebs/parse')
+const dwRem = require('random-access-memory')
 const {dWebDns, timer, toEventTarget} = require('./lib/util')
 const {
   DPACK_MANIFEST_FILENAME,

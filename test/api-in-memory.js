@@ -25,18 +25,18 @@ test('vault.readdir', async t => {
 
   // root dir
   let listing1 = await vault.readdir('/')
-  t.deepEqual(listing1.sort(), ['dbrowser.png', 'greetings.txt', 'subdir'])
+  t.deepEqual(listing1.sort(), ['dbrowser.png', 'hello.txt', 'subdir'])
 
   // subdir
   let listing2 = await vault.readdir('/subdir')
-  t.deepEqual(listing2.sort(), ['greetings.txt', 'space in the name.txt'])
+  t.deepEqual(listing2.sort(), ['hello.txt', 'space in the name.txt'])
 
   // root dir stat=true
   let listing3 = await vault.readdir('/', {stat: true})
   listing3 = listing3.sort()
   t.is(listing3[0].name, 'dbrowser.png')
   t.truthy(listing3[0].stat)
-  t.is(listing3[1].name, 'greetings.txt')
+  t.is(listing3[1].name, 'hello.txt')
   t.truthy(listing3[1].stat)
   t.is(listing3[2].name, 'subdir')
   t.truthy(listing3[2].stat)
@@ -44,7 +44,7 @@ test('vault.readdir', async t => {
   // subdir stat=true
   let listing4 = await vault.readdir('/subdir', {stat: true})
   listing4 = listing4.sort()
-  t.is(listing4[0].name, 'greetings.txt')
+  t.is(listing4[0].name, 'hello.txt')
   t.truthy(listing4[0].stat)
   t.is(listing4[1].name, 'space in the name.txt')
   t.truthy(listing4[1].stat)
@@ -54,11 +54,11 @@ test('vault.readFile', async t => {
   var vault = new DPackVault(testStaticDPackURL)
 
   // read utf8
-  var helloTxt = await vault.readFile('greetings.txt')
-  t.deepEqual(helloTxt, 'hello')
+  var helloTxt = await vault.readFile('hello.txt')
+  t.deepEqual(helloTxt, 'hello world')
 
   // read utf8 2
-  var helloTxt2 = await vault.readFile('/subdir/greetings.txt', 'utf8')
+  var helloTxt2 = await vault.readFile('/subdir/hello.txt', 'utf8')
   t.deepEqual(helloTxt2, 'hi')
 
   // read utf8 when spaces are in the name
@@ -79,18 +79,18 @@ test('vault.readFile', async t => {
 
   // timeout: read an vault that does not exist
   var badVault = new DPackVault(fakeDPackURL)
-  await t.throws(badVault.readFile('greetings.txt', { timeout: 500 }))
+  await t.throws(badVault.readFile('hello.txt', { timeout: 500 }))
 })
 
 test('vault.stat', async t => {
   var vault = new DPackVault(testStaticDPackURL)
 
   // stat root file
-  var entry = await vault.stat('greetings.txt')
+  var entry = await vault.stat('hello.txt')
   t.deepEqual(entry.isFile(), true, 'root file')
 
   // stat subdir file
-  var entry = await vault.stat('subdir/greetings.txt')
+  var entry = await vault.stat('subdir/hello.txt')
   t.deepEqual(entry.isFile(), true, 'subdir file')
 
   // stat subdir
@@ -101,7 +101,7 @@ test('vault.stat', async t => {
   await t.throws(vault.stat('notfound'))
 
   // stat alt-formed path
-  var entry = await vault.stat('/greetings.txt')
+  var entry = await vault.stat('/hello.txt')
   t.deepEqual(entry.isFile(), true, 'alt-formed path')
 
   // stat path w/spaces in it
@@ -114,7 +114,7 @@ test('vault.stat', async t => {
 
   // timeout: stat an vault that does not exist
   var badVault = new DPackVault(fakeDPackURL)
-  await t.throws(badVault.stat('greetings.txt', { timeout: 500 }))
+  await t.throws(badVault.stat('hello.txt', { timeout: 500 }))
 })
 
 test('DPackVault.create', async t => {
@@ -158,7 +158,7 @@ test('vault.writeFile', async t => {
   }
 
   var dbrowserPng = fs.readFileSync(__dirname + '/scaffold/dpack-static-test/dbrowser.png')
-  await dotest('greetings.txt', 'hello world', 'utf8')
+  await dotest('hello.txt', 'hello world', 'utf8')
   await dotest('dbrowser1.png', dbrowserPng, 'binary')
   await dotest('dbrowser2.png', dbrowserPng.toString('base64'), 'base64')
   await dotest('dbrowser3.png', dbrowserPng.toString('hex'), 'hex')
@@ -166,7 +166,7 @@ test('vault.writeFile', async t => {
 
 test('vault.writeFile gives an error for malformed names', async t => {
   await t.throws(createdVault.writeFile('/', 'hello world'))
-  await t.throws(createdVault.writeFile('/subdir/greetings.txt/', 'hello world'))
+  await t.throws(createdVault.writeFile('/subdir/hello.txt/', 'hello world'))
   await t.throws(createdVault.writeFile('hello`.txt', 'hello world'))
 })
 
@@ -181,8 +181,8 @@ test('vault.mkdir', async t => {
 })
 
 test('vault.writeFile writes to subdirectories', async t => {
-  await createdVault.writeFile('subdir/greetings.txt', 'hello world', 'utf8')
-  var res = await createdVault.readFile('subdir/greetings.txt', 'utf8')
+  await createdVault.writeFile('subdir/hello.txt', 'hello world', 'utf8')
+  var res = await createdVault.readFile('subdir/hello.txt', 'utf8')
   t.deepEqual(res, 'hello world')
 })
 
@@ -235,25 +235,25 @@ test('vault.download', async t => {
   var vault = new DPackVault(testStaticDPackURL)
 
   // ensure not yet downloaded
-  var res = await vault.stat('/greetings.txt')
+  var res = await vault.stat('/hello.txt')
   t.deepEqual(res.downloaded, 0)
 
   // download
-  await vault.download('/greetings.txt')
+  await vault.download('/hello.txt')
 
   // ensure downloaded
-  var res = await vault.stat('/greetings.txt')
+  var res = await vault.stat('/hello.txt')
   t.deepEqual(res.downloaded, res.blocks)
 
   // ensure not yet downloaded
-  var res = await vault.stat('/subdir/greetings.txt')
+  var res = await vault.stat('/subdir/hello.txt')
   t.deepEqual(res.downloaded, 0)
 
   // download
   await vault.download('/')
 
   // ensure downloaded
-  var res = await vault.stat('/subdir/greetings.txt')
+  var res = await vault.stat('/subdir/hello.txt')
   t.deepEqual(res.downloaded, res.blocks)
 })
 
